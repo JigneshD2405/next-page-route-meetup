@@ -1,21 +1,25 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
 
 import Card from "../ui/Card";
 import classes from "./NewMeetupForm.module.css";
 
-function NewMeetupForm(props) {
+interface NewMeetupFormProps {
+  onAddMeetup: (meetupData: { title: string; image: string; address: string; description: string }) => void;
+}
+
+function NewMeetupForm(props: NewMeetupFormProps) {
   const titleInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const addressInputRef = useRef<HTMLInputElement>(null);
   const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
-  function submitHandler(event) {
+  function submitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const enteredTitle = titleInputRef.current.value;
-    const enteredImage = imageInputRef.current.value;
-    const enteredAddress = addressInputRef.current.value;
-    const enteredDescription = descriptionInputRef.current.value;
+    const enteredTitle = titleInputRef.current!.value;
+    const enteredImage = imageInputRef.current!.value;
+    const enteredAddress = addressInputRef.current!.value;
+    const enteredDescription = descriptionInputRef.current!.value;
 
     const meetupData = {
       title: enteredTitle,

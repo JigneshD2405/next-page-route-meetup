@@ -94,3 +94,65 @@ import { useRouter } from "next/router";
 const route = useRouter();
 
 const newsId = route.query.newsId;
+
+In Nextjs when We request for Page :-
+
+
+$$ Request =>/some-route
+
+IN next js when we request for page at that time next send back pre render page thats good for SEO 
+after getting requested page it will be hydrated with react code means useEffect will run and data will be load
+
+To render the data with request page Next js give to in built Pre-rendering method function
+1)Static Generation:-
+IN this Page Component will pre render when we create build means after deploy the pre render page does not changed
+
+export async function getStaticProps(){
+return {
+  props:{
+    abc:abc
+  },
+  revalidate:10 // second
+}
+}
+page will re pre generate every 10seconds
+it will executes only in build process
+
+getStaticPaths :It is used if page Component is Dynamic and We are using getStaticProps
+
+export async function getStaticPaths() {
+  //nextjs will render all version of this Dynamic page in advanced
+  return {
+    fallback: false, // It means path contain all possible values of meetupId
+    paths: [
+      {
+        param: {
+          meetupId: "m1",
+        },
+      },
+      {
+        param: {
+          meetupId: "m2",
+        },
+      },
+    ],
+  };
+}
+
+2)Server Side Rendering
+
+This both above will works only in page Component file not in other will
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+  };
+} 
+runs on every Request
+Disadvantage is like need to wait Until page is generate
+
+$$ API Routes:-
+This Don't return HTML code But they are used for Incoming HTTP request.
+pages/api (name matters)
