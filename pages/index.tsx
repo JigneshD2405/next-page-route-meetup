@@ -1,6 +1,7 @@
 import MeetupList from "@/components/meetups/MeetupList";
 import { MeetupProp } from "@/Types/meetup";
 import { MongoClient } from "mongodb";
+import Head from "next/head";
 
 const DUMMY_MEETUPS = [
   {
@@ -20,7 +21,15 @@ const DUMMY_MEETUPS = [
 ];
 
 function HomePage(props: { meetups: MeetupProp[] }) {
-  return <MeetupList meetups={props?.meetups} />;
+  return (
+    <>
+      <Head>
+        <title>React Meetups</title>
+        <meta name="description" content="Browse a huge list of meetups!" />
+      </Head>
+      <MeetupList meetups={props?.meetups} />
+    </>
+  );
 }
 
 export async function getStaticProps() {
